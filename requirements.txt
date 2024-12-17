@@ -1,0 +1,3 @@
+acoular
+numpy
+matplotlib
