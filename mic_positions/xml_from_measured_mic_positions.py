@@ -11,7 +11,7 @@ print(df)
 
 # grid dimensions
 side_grid_width = 1.38 #x values in 2D plane
-side_grid_height = 1.82 #y values in 2D plane
+side_grid_height = 1.82 #y values in 2D plane 
 top_grid_width = 1.42 #x values in 2D plane
 top_grid_depth = 1.19 #y values in 2D plane
 

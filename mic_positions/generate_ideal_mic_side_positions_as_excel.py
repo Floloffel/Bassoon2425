@@ -55,6 +55,6 @@ print(side_positions)
 
 # save as excel file
 
-side_positions.to_excel("mic_positions/side_postions.xlsx")
+side_positions.to_excel("mic_positions/data/side_postions.xlsx")
 
 
