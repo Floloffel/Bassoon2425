@@ -22,5 +22,4 @@ __pycache__/
 *.swp
 
 cache/
-*xlsx
-*xml
+side_postions.xlsx
