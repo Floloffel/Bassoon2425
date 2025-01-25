@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def calculate_distance(df, name1, name2, x_col, y_col, z_col, print_coords=True, print_dist=True):
+def calculate_distance(df, name1, name2, x_col="X", y_col="Y", z_col="Z", print_coords=False, print_dist=True):
     point1 = df[df["Mic_Index"] == name1][[x_col, y_col, z_col]].iloc[0]
     point2 = df[df["Mic_Index"] == name2][[x_col, y_col, z_col]].iloc[0]
     
