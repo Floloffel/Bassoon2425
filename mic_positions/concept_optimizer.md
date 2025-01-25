@@ -11,7 +11,7 @@ Outputs are:
 * some kind of mean error
 
 
-Therefore the each microphone is on its corresponding plane:
+Therefore, each microphone is on its corresponding plane:
 * A - top
 * B - left
 * C - back
@@ -24,7 +24,6 @@ The 3d space is described by an cartesian coordinate system:
 
 
 To simplify the modell we make some assumptions:
-* A (top) plane won't be moved. Thus it is the reference plane
 * z offset of B, C, D plane is the same
 * mic planes are perfectly flat
 * B and C planes cannot be tilted on z plane
@@ -39,6 +38,10 @@ Paramters that will be optimized are:
 
 --> 11 parameters to be optimized
 
-steps (Work in progress): 
-* build a mic positions model with 11 parameters
-* optimize those paramters
+steps: 
+* import meaasured 3d mic positions and distance measurements
+* only use points with measured distance
+* calculate sum of squarred errors
+* build a mic positions model with parameters (offsets and tilt)
+* optimize those paramters for minimal sum of squarred errors
+* return optimized paramters and mic positions
