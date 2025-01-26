@@ -33,7 +33,7 @@ coord_cut_side_sorted = coord_cut_side[:, sorted_indices]  # Sort by y-values
 len_side = len(coord_cut_side_sorted[1])
 
 plane_names_short = ["B", "C", "D"]
-plane_names_long = ["right", "front", "left"]
+plane_names_long = ["left", "front", "right"]
 
 data = []
 for letter, name in zip(plane_names_short, plane_names_long):
