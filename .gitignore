@@ -23,3 +23,6 @@ __pycache__/
 
 cache/
 side_postions.xlsx
+
+evaluation/in/array_audio_data
+evaluation/in/video_data
