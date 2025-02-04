@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MicArray name="bassoon_cage_64_existing">
+  <pos Name="Point 0" x="0.0" y="-0.7" z="0.0"/>
+  <pos Name="Point 1" x="-0.169" y="-0.7" z="-0.155"/>
+  <pos Name="Point 2" x="0.028" y="-0.7" z="0.323"/>
+  <pos Name="Point 3" x="0.241" y="-0.7" z="-0.315"/>
+  <pos Name="Point 4" x="-0.451" y="-0.7" z="0.08"/>
+  <pos Name="Point 5" x="0.432" y="-0.7" z="0.275"/>
+  <pos Name="Point 6" x="-0.146" y="-0.7" z="-0.542"/>
+  <pos Name="Point 7" x="-0.279" y="-0.7" z="0.538"/>
+  <pos Name="Point 8" x="0.609" y="-0.7" z="-0.222"/>
+  <pos Name="Point 9" x="-0.635" y="-0.7" z="-0.262"/>
+  <pos Name="Point 10" x="0.307" y="-0.7" z="0.656"/>
+  <pos Name="Point 11" x="0.227" y="-0.7" z="-0.725"/>
+  <pos Name="Point 12" x="-0.687" y="-0.7" z="0.398"/>
+  <pos Name="Point 13" x="-0.493" y="-0.7" z="-0.701"/>
+  <pos Name="Point 14" x="-0.114" y="-0.7" z="0.88"/>
+  <pos Name="Point 15" x="0.689" y="-0.7" z="0.686"/>
+  <pos Name="Point 16" x="-0.046" y="-0.7" z="-0.998"/>
+
+</MicArray>
