@@ -12,8 +12,6 @@ import time
 from evaluation_config import eval_conf
 
 ###############################################
-print(os.getcwd())
-
 initialTime = time.time()
 
 # initial definitions
@@ -25,7 +23,7 @@ micgeofile = "./evaluation/"+  eval_conf["in_folder"] + "array_position_data/bas
 m = ac.MicGeom(from_file=micgeofile)
 
 # define calculation grid
-resolution = 0.05
+resolution = eval_conf["calc_grid_res_meters"]
 
 g = ac.RectGrid3D(x_min=eval_conf["x_min"], x_max=eval_conf["x_max"], y_min=eval_conf["y_min"], y_max=eval_conf["y_max"], z_min=eval_conf["z_min"], z_max=eval_conf["z_max"], increment=eval_conf["calc_grid_res_meters"])
 
