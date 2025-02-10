@@ -2,12 +2,12 @@
 This is a config script for all evaluation scripts. It contains all relevant parameters that are shared among different evaluation files. All parameters are stored in a dictionary.
 '''
 
-out_folder = "out/"
-in_folder = "in/"
+out_folder = "./evaluation/out/"
+in_folder = "./evaluation/in/"
 
 
 calc_grid_res_meters = 0.05
-framereate_fps = 0.1
+frame_rate_fps = 1
 
 bandwidth = [1, 1/3][0]
 frequency_bands = [125, 250, 500, 1000, 2000] # Array with mid frequencies of frequency bands
@@ -36,11 +36,11 @@ fft_block_size = [128, 256, 2048, 4096][2]
 ################# Dont change below ##################
 ######################################################
 
-eval_conf = {
+eval_config = {
     "out_folder": out_folder,
     "in_folder": in_folder,
     "calc_grid_res_meters": calc_grid_res_meters,
-    "framereate_fps": framereate_fps,
+    "frame_rate_fps": frame_rate_fps,
     "bandwidth": bandwidth,
     "frequency_bands": frequency_bands,
     "x_min": x_min,

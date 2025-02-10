@@ -74,8 +74,9 @@ if __name__ == "__main__": #good practice, but mandatory for mutliprocessing wit
                 path_audio_data,
                 g,
                 m)
+             for index_frame in range(0, frame_amount)   
              for index_freq_band, currentFreqBand in enumerate(frequency_bands) 
-             for index_frame in range(0, frame_amount)]
+             ]
 
     # Use multiprocessing
 
@@ -83,24 +84,6 @@ if __name__ == "__main__": #good practice, but mandatory for mutliprocessing wit
         for index_freq_band, index_frame, output in executor.map(process_task, tasks):
             result[index_freq_band, index_frame] = output
 
-    #for index_freq_band, currentFreqBand in enumerate(frequency_bands):
-    #    for index_frame in range(0, frame_amount):
-    #        time_calc = time.time()
-    #
-    #        result[index_freq_band, index_frame] = calc_audio_frame(
-    #            currentFreqBand, 
-    #            index_frame, 
-    #            index_freq_band, 
-    #            bandwith, 
-    #            start,
-    #            stop,
-    #            sample_freq,
-    #            frame_rate,
-    #            frame_length,
-    #            path_audio_data,
-    #            g,
-    #            m
-    #            )
 
     time_total = np.round(time.time()-time_initial, 2)
 
