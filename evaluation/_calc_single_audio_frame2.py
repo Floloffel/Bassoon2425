@@ -9,10 +9,8 @@ def calc_audio_frame(
       currentFreqBand, 
       index_frame, 
       index_FreqBand,
-      bandwidth, 
       start, 
       stop,
-      framerate, 
       frameLength,
       ac_RectGrid3D,
       ac_MicGeom,
@@ -22,7 +20,7 @@ def calc_audio_frame(
     
     calcTime = time.time()
 
-    print(f"Frame {index_frame+1} of {int((stop-start)*framerate)}")
+    print(f"Frame {index_frame+1} of {int((stop-start)*config["frame_rate_fps"])}")
     print(f"Frequency Band: {index_FreqBand + 1} ({currentFreqBand}) Hz)")
     print(f"Frame length: {(start + (frameLength*(index_frame+1))) - (start+(frameLength*index_frame))} seconds")
 
@@ -43,7 +41,7 @@ def calc_audio_frame(
         freq_data=f, 
         steer=st)
 
-    result_frame = b.synthetic(currentFreqBand, bandwidth)
+    result_frame = b.synthetic(currentFreqBand, config["bandwidth"])
 
     print('Calculation time:', np.round(time.time()-calcTime, 2), "seconds")
     print("")
