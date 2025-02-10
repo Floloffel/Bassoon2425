@@ -14,31 +14,26 @@ from evaluation_config import eval_config
 from _calc_single_audio_frame2 import calc_audio_frame
 
 
-def efficient_eval(name_h5_file, out_folder_name, config):
+def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_seconds):
 
     gc.collect() 
 
     ac.config.global_caching = "all"
 
-
-
     # define paths
-    path_audio_data = config["in_folder"] + "array_audio_data/" + name_h5_file + ".h5"
+    path_audio_data = config["in_folder"] + "array_audio_data/" + name_h5_file
     path_mic_geom = config["in_folder"] + "array_position_data/bassoon_cage_64_optimized.xml"
     path_result_files = config["out_folder"] + out_folder_name + "/"
 
     # define parameters
-    resolution = config["calc_grid_res_meters"]
-    start = 0 #seconds
-    stop = 105 
-    bandwith = config["bandwidth"]
+
     frequency_bands = config["frequency_bands"]
     sample_freq = ac.MaskedTimeSamples(name = path_audio_data).sample_freq
 
-    frame_rate = config["framereate_fps"]
+    frame_rate = config["frame_rate_fps"]
     frame_length_seconds = 1/frame_rate
     frame_length_samples = int(frame_length_seconds * sample_freq)
-    frame_amount = int((stop-start)*frame_rate)
+    frame_amount = int((stop_seconds-start_seconds)*frame_rate)
 
     if frame_length_samples < config["fft_block_size"]:
         raise ValueError(f"frame_length shorter than fft block ({frame_length_samples} < {config["fft_block_size"]})")
@@ -71,8 +66,8 @@ def efficient_eval(name_h5_file, out_folder_name, config):
     for index_frame in range(0, frame_amount):
         data = ac.MaskedTimeSamples(
             name = path_audio_data, 
-            start = start + frame_length_samples * index_frame,
-            stop = start + frame_length_samples * (index_frame+1)
+            start = start_seconds + frame_length_samples * index_frame,
+            stop = start_seconds + frame_length_samples * (index_frame+1)
         )
 
         for index_freq_band, currentFreqBand in enumerate(frequency_bands):
@@ -80,10 +75,8 @@ def efficient_eval(name_h5_file, out_folder_name, config):
                 currentFreqBand, 
                 index_frame, 
                 index_freq_band, 
-                bandwith, 
-                start,
-                stop,
-                frame_rate,
+                start_seconds,
+                stop_seconds,
                 frame_length_seconds,
                 g,
                 m,
@@ -117,6 +110,8 @@ def efficient_eval(name_h5_file, out_folder_name, config):
 
 
 if __name__ == "__main__":
-    name_h5_file = "2025-01-28_15-59-01_400437"
+    name_h5_file = "2025-01-28_15-59-01_400437.h5"
     out_folder_name = "testing"
-    efficient_eval(name_h5_file, out_folder_name, eval_config)
+    start_seconds = 0 #seconds
+    stop_seconds = 105 
+    efficient_eval(name_h5_file, out_folder_name, eval_config, start_seconds, stop_seconds)
