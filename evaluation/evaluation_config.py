@@ -24,7 +24,7 @@ z_max = 1.75
 
 #FFT parameters
 fft_overlap = ["None", "50%", "75%", "87.5%"][0]
-fft_block_size = [128, 256, 2048, 4096][2]
+fft_block_size = [128, 256, 2048, 4096][1]
 
 
 
@@ -36,7 +36,7 @@ fft_block_size = [128, 256, 2048, 4096][2]
 ################# Dont change below ##################
 ######################################################
 
-eval_conf = {
+eval_config = {
     "out_folder": out_folder,
     "in_folder": in_folder,
     "calc_grid_res_meters": calc_grid_res_meters,
