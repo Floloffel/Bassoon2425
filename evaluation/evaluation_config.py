@@ -2,12 +2,12 @@
 This is a config script for all evaluation scripts. It contains all relevant parameters that are shared among different evaluation files. All parameters are stored in a dictionary.
 '''
 
-out_folder = "out/"
-in_folder = "in/"
+out_folder = "./evaluation/out/"
+in_folder = "./evaluation/in/"
 
 
 calc_grid_res_meters = 0.05
-framereate_fps = 0.1
+framereate_fps = 1
 
 bandwidth = [1, 1/3][0]
 frequency_bands = [125, 250, 500, 1000, 2000] # Array with mid frequencies of frequency bands
