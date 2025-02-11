@@ -20,7 +20,7 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
 
     gc.collect() 
 
-    ac.config.global_caching = "none"
+    ac.config.global_caching = "all"
     #ac.config.cache_dir = "C:/Projekte TEMPORÄR/Bassoon2425 Cache"
 
     # define paths
@@ -114,8 +114,8 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
 def main():
     name_h5_file = "2025-01-28_15-59-01_400437.h5"
     out_folder_name = "testing"
-    start_seconds = 0 #seconds
-    stop_seconds = 105 
+    start_seconds = 26 #seconds
+    stop_seconds = 36 
     efficient_eval(name_h5_file, out_folder_name, eval_config, start_seconds, stop_seconds)
 
 if __name__ == "__main__":
@@ -126,5 +126,5 @@ if __name__ == "__main__":
 
     profiler.disable()
     stats = pstats.Stats(profiler).sort_stats("cumtime")
-    stats.print_stats()
+    #stats.print_stats()
     stats.dump_stats("./evaluation/out/testing/profile_results.prof")
