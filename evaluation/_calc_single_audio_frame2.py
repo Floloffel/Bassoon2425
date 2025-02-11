@@ -21,8 +21,8 @@ def calc_audio_frame(
     calcTime = time.time()
 
     print(f"Frame {index_frame+1} of {int((stop-start)*config["frame_rate_fps"])}")
-    print(f"Frequency Band: {index_FreqBand + 1} ({currentFreqBand}) Hz)")
-    print(f"Frame length: {(start + (frameLength*(index_frame+1))) - (start+(frameLength*index_frame))} seconds")
+    print(f"Frequency Band: {index_FreqBand + 1} ({currentFreqBand} Hz)")
+    print(f"Frame length: {int(frameLength * ac_data.sample_freq)} samples")
 
     
     f = ac.PowerSpectra(
