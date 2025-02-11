@@ -10,15 +10,18 @@ import json
 import time
 import gc
 
+import cProfile
+import pstats
+
 from evaluation_config import eval_config
 from _calc_single_audio_frame2 import calc_audio_frame
-
 
 def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_seconds):
 
     gc.collect() 
 
-    ac.config.global_caching = "all"
+    ac.config.global_caching = "none"
+    #ac.config.cache_dir = "C:/Projekte TEMPORÄR/Bassoon2425 Cache"
 
     # define paths
     path_audio_data = config["in_folder"] + "array_audio_data/" + name_h5_file
@@ -36,7 +39,7 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     frame_amount = int((stop_seconds-start_seconds)*frame_rate)
 
     if frame_length_samples < config["fft_block_size"]:
-        raise ValueError(f"frame_length shorter than fft block ({frame_length_samples} < {config["fft_block_size"]})")
+        raise ValueError(f"frame_length shorter than fft block ({frame_length_samples} < {np.min(config["fft_dynamic_block_sizes"])})")
 
     # acoular set up
 
@@ -108,10 +111,20 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     print(f"Saved results to {path_result_files}")
     #####################################
 
-
-if __name__ == "__main__":
+def main():
     name_h5_file = "2025-01-28_15-59-01_400437.h5"
     out_folder_name = "testing"
     start_seconds = 0 #seconds
     stop_seconds = 105 
     efficient_eval(name_h5_file, out_folder_name, eval_config, start_seconds, stop_seconds)
+
+if __name__ == "__main__":
+    # run main with profiler to check for bottlenecks
+    profiler = cProfile.Profile()
+    profiler.enable()
+    main()
+
+    profiler.disable()
+    stats = pstats.Stats(profiler).sort_stats("cumtime")
+    stats.print_stats()
+    stats.dump_stats("./evaluation/out/testing/profile_results.prof")

@@ -7,10 +7,10 @@ in_folder = "./evaluation/in/"
 
 
 calc_grid_res_meters = 0.05
-frame_rate_fps = 1
+frame_rate_fps = 24
 
-bandwidth = [1, 1/3][0]
-frequency_bands = [125, 250, 500, 1000, 2000] # Array with mid frequencies of frequency bands
+
+
 #frequency_bands = [500, 1000]
 
 # 3D evaluation area
@@ -24,11 +24,11 @@ z_max = 1.75
 
 #FFT parameters
 fft_overlap = ["None", "50%", "75%", "87.5%"][0]
-fft_block_size = [128, 256, 2048, 4096][2]
+fft_block_size = [128, 256, 512, 2048, 4096][1]
+fft_dynamic_block_sizes = [2048, 2048, 512, 256, 256]
 
-
-
-
+frequency_bands = [125, 250, 500, 1000, 2000] # Array with mid frequencies of frequency bands
+bandwidth = [1, 1/3][0]
 
 
 
@@ -50,5 +50,6 @@ eval_config = {
     "z_min": z_min,
     "z_max": z_max,
     "fft_overlap": fft_overlap, 
-    "fft_block_size": fft_block_size
+    "fft_block_size": fft_block_size,
+    "fft_dynamic_block_sizes": fft_dynamic_block_sizes
 }

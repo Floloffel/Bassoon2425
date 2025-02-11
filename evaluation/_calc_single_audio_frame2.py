@@ -29,7 +29,7 @@ def calc_audio_frame(
             source=ac_data, 
             window='Hanning', 
             overlap=config["fft_overlap"], 
-            block_size=config["fft_block_size"]
+            block_size=config["fft_dynamic_block_sizes"][index_FreqBand]
             )
     
     st = ac.SteeringVector(
