@@ -67,7 +67,7 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     time_initial = time.time()
 
     for index_frame in range(0, frame_amount):
-        data = ac.MaskedTimeSamples(
+        data = ac.MaskedTimeSamples( # das muss nicht jeden frame aufgerufen werden. es kann nach dem aufrufen einfach data.start und data.stop geändert werden.
             name = path_audio_data, 
             start = start_seconds + frame_length_samples * index_frame,
             stop = start_seconds + frame_length_samples * (index_frame+1)
