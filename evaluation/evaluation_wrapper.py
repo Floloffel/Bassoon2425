@@ -8,13 +8,13 @@ import os
 from evaluation_config import eval_config
 from efficient_evaluation import efficient_eval
 
-results_folder = eval_config["out_folder"] + "beamforming_results/"
-os.makedirs(results_folder, exist_ok=True)
+results_folder_name = "beamforming_results"
+os.makedirs((eval_config["out_folder"] + results_folder_name), exist_ok=True)
 
 # Setup logging
 date_str = datetime.now().strftime("%y_%m_%d")
 logging.basicConfig(
-    filename=f'{results_folder}evaluation_{date_str}.log',
+    filename=f'{eval_config["out_folder"] + results_folder_name}/evaluation_{date_str}.log',
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
@@ -48,11 +48,13 @@ for i, row in enumerate(stats):
     out_folder_name = f"result_{eval_config['frame_rate_fps']}_{file_name}"
     logging.info(f"Processing file {file_name} ({i+1}/{len(stats)})")
     
-    efficient_eval(file_name, results_folder, eval_config, float(row[2]), float(row[3]))
+    efficient_eval(file_name, (results_folder_name + "/" + file_name), eval_config, float(row[2]), float(row[3]))
 
     # Cool down period
-    if i+1 < {len(stats)}:
-        time.sleep(300)
+    if i+1 < len(stats):
+        time_cooldown = 60
+        print(f"Taking a {time_cooldown}s break to cool down...")
+        time.sleep(time_cooldown)
 
 time_needed = np.round(time.time() - time_start, 2)
 logging.info(f"Script completed. Total time needed: {time_needed/60} minutes.")
