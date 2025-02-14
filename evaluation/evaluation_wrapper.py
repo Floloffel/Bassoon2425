@@ -34,7 +34,7 @@ for row in stats:
     total_time.append(time_s)
 
 total_time = sum(total_time)
-estimated_time_per_seconds = 250
+estimated_time_per_seconds = int(5*25)
 estimate_time = np.round(total_time * estimated_time_per_seconds / 60 / 60, 2)
 logging.info(f"Estimated needed time: {estimate_time} hours")
 print(f"Estimated needed time with {estimated_time_per_seconds} seconds of calculation for 1 second of audio data:")
