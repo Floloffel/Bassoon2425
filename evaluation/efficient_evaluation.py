@@ -93,6 +93,8 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
 
             data.start = int((start_seconds + frame_length_seconds * index_frame)*sample_freq)
             data.stop = int((start_seconds + frame_length_seconds * (index_frame+1))*sample_freq)
+            f.block_size = config["fft_dynamic_block_sizes"][index_freq_band]
+
             result[index_freq_band, index_frame] = b.synthetic(currentFreqBand, config["bandwidth"])
 
             time_per_band = np.round(time.time()-time_band_start, 2)
@@ -100,7 +102,8 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
             print(".")
         
         time_per_frame = np.round(time.time()-time_frame_start, 2)
-        print(f"Calculation time for: {time_per_frame} seconds")
+        print(f"Calculation time for all bands in frame: {time_per_frame} seconds")
+        print("")
         print("")
 
     time_total = np.round(time.time()-time_initial, 2)
