@@ -16,7 +16,7 @@ from evaluation_config import eval_config
 
 def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_seconds):
 
-    ac.config.global_caching = "none"
+    ac.config.global_caching = "individual"
     #ac.config.cache_dir = "C:/Projekte TEMPORÄR/Bassoon2425 Cache"
 
     # define paths
@@ -37,7 +37,7 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     frame_amount = int((stop_seconds-start_seconds)*frame_rate)
 
     if frame_length_samples < config["fft_block_size"]:
-        raise ValueError(f"frame_length shorter than fft block ({frame_length_samples} < {config["fft_block_sized"]})")
+        raise ValueError(f"frame_length shorter than fft block ({frame_length_samples} < {np.min(config["fft_dynamic_block_sizes"])})")
 
     # acoular set up
 
@@ -67,8 +67,7 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     f = ac.PowerSpectra(
             source=data, 
             window='Hanning', 
-            overlap=config["fft_overlap"], 
-            block_size=config["fft_block_size"] # ist index_FreqBand richtig? geht es nicht um Block size?
+            overlap=config["fft_overlap"]
             )
     
     st = ac.SteeringVector(
