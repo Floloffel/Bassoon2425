@@ -8,19 +8,15 @@ import acoular as ac
 import numpy as np
 import json
 import time
-import gc
 
 import cProfile
 import pstats
 
 from evaluation_config import eval_config
-from _calc_single_audio_frame2 import calc_audio_frame
 
 def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_seconds):
 
-    gc.collect() 
-
-    ac.config.global_caching = "all"
+    ac.config.global_caching = "none"
     #ac.config.cache_dir = "C:/Projekte TEMPORÄR/Bassoon2425 Cache"
 
     # define paths
@@ -28,10 +24,12 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     path_mic_geom = config["in_folder"] + "array_position_data/bassoon_cage_64_optimized.xml"
     path_result_files = config["out_folder"] + out_folder_name + "/"
 
+    # load data (early, to get sample freq)
+    data = ac.MaskedTimeSamples(file = path_audio_data)
+    
     # define parameters
-
     frequency_bands = config["frequency_bands"]
-    sample_freq = ac.MaskedTimeSamples(name = path_audio_data).sample_freq
+    sample_freq = data.sample_freq
 
     frame_rate = config["frame_rate_fps"]
     frame_length_seconds = 1/frame_rate
@@ -39,11 +37,11 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     frame_amount = int((stop_seconds-start_seconds)*frame_rate)
 
     if frame_length_samples < config["fft_block_size"]:
-        raise ValueError(f"frame_length shorter than fft block ({frame_length_samples} < {np.min(config["fft_dynamic_block_sizes"])})")
+        raise ValueError(f"frame_length shorter than fft block ({frame_length_samples} < {config["fft_block_sized"]})")
 
     # acoular set up
 
-    m = ac.MicGeom(from_file=path_mic_geom)
+    m = ac.MicGeom(file=path_mic_geom)
     g = ac.RectGrid3D(
         x_min=config["x_min"], 
         x_max=config["x_max"], 
@@ -64,33 +62,46 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
 
     ###############################################
     # start calculation
-    time_initial = time.time()
+    time_initial = time.time()  
+
+    f = ac.PowerSpectra(
+            source=data, 
+            window='Hanning', 
+            overlap=config["fft_overlap"], 
+            block_size=config["fft_block_size"] # ist index_FreqBand richtig? geht es nicht um Block size?
+            )
+    
+    st = ac.SteeringVector(
+        grid=g, 
+        mics=m, 
+        steer_type='true location')
+    
+    b = ac.BeamformerCleansc(
+        freq_data=f, 
+        steer=st)
+    
+    print(f"Frame length: {frame_length_samples} samples")
+    print("")
 
     for index_frame in range(0, frame_amount):
-        data = ac.MaskedTimeSamples( # das muss nicht jeden frame aufgerufen werden. es kann nach dem aufrufen einfach data.start und data.stop geändert werden.
-            name = path_audio_data, 
-            start = start_seconds + frame_length_samples * index_frame,
-            stop = start_seconds + frame_length_samples * (index_frame+1)
-        )
+        print(f"Frame {index_frame+1} of {frame_amount}")
+        time_frame_start = time.time()
 
         for index_freq_band, currentFreqBand in enumerate(frequency_bands):
-            result[index_freq_band, index_frame] = calc_audio_frame(
-                currentFreqBand, 
-                index_frame, 
-                index_freq_band, 
-                start_seconds,
-                stop_seconds,
-                frame_length_seconds,
-                g,
-                m,
-                data,
-                config
-                )
+            print(f"Frequency Band: {index_freq_band + 1} ({currentFreqBand} Hz)")
+            time_band_start = time.time()
 
-        #garbage collection every 20 frames to free up computing power
-        if index_frame % 20 == 0:    
-            gc.collect() 
+            data.start = int((start_seconds + frame_length_seconds * index_frame)*sample_freq)
+            data.stop = int((start_seconds + frame_length_seconds * (index_frame+1))*sample_freq)
+            result[index_freq_band, index_frame] = b.synthetic(currentFreqBand, config["bandwidth"])
 
+            time_per_band = np.round(time.time()-time_band_start, 2)
+            print(f"Calculation time: {time_per_band} seconds")
+            print(".")
+        
+        time_per_frame = np.round(time.time()-time_frame_start, 2)
+        print(f"Calculation time for: {time_per_frame} seconds")
+        print("")
 
     time_total = np.round(time.time()-time_initial, 2)
 
