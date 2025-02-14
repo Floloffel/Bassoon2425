@@ -113,6 +113,10 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     #########################################
 
     # save Data
+
+    path_result_files = path_result_files.replace(".h5", "")
+    name_h5_file = name_h5_file.replace(".h5", "")
+    
     os.makedirs(path_result_files, exist_ok=True)
     np.save(path_result_files + "result_" + name_h5_file, result)
 
