@@ -1,3 +1,9 @@
+'''
+This script runs the evaluation function on all measurements. 
+Besides measurement data, a "stas" file with measurement name, start and stop is needed.
+Running this script can take a very long time. Logging is implemented.
+'''
+
 import acoular # needed to import before numpy to enable parallel processing with numba
 import numpy as np
 import time

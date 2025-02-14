@@ -1,5 +1,6 @@
 '''
-This script is based on the jupyter notebook Auswerteschleife.ipynb from 09.02.2025. 
+This scripts provides a function to evaluate array data of one measurement. 
+Array data will be processed as frames at a specified frame rate.
 '''
 
 # import libraries
@@ -17,7 +18,6 @@ from evaluation_config import eval_config
 def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_seconds):
 
     ac.config.global_caching = "individual"
-    #ac.config.cache_dir = "C:/Projekte TEMPORÄR/Bassoon2425 Cache"
 
     # define paths
     path_audio_data = config["in_folder"] + "array_audio_data/" + name_h5_file
