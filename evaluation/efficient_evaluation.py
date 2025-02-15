@@ -73,7 +73,8 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     st = ac.SteeringVector(
         grid=g, 
         mics=m, 
-        steer_type='true location')
+        steer_type='true location',
+        ref=1)
     
     b = ac.BeamformerCleansc(
         freq_data=f, 
@@ -129,7 +130,7 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     #####################################
 
 def main():
-    name_h5_file = "2025-01-28_15-59-01_400437.h5"
+    name_h5_file = "2025-01-28_15-01-02_954236.h5"
     out_folder_name = "testing"
     start_seconds = 26 #seconds
     stop_seconds = 36 
