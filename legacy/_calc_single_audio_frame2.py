@@ -25,11 +25,15 @@ def calc_audio_frame(
     print(f"Frame length: {int(frameLength * ac_data.sample_freq)} samples")
 
     
+    # PowerSpectra, SteeringVector and BeamformerCleansc müssen nicht jeden frame ausgeführt werden.
+    # im loop muss nur synthetic ausgeführt werden. die anderen nur ein mal vorher. das sollte schon viel schneller sein.
+
+
     f = ac.PowerSpectra(
             source=ac_data, 
             window='Hanning', 
             overlap=config["fft_overlap"], 
-            block_size=config["fft_dynamic_block_sizes"][index_FreqBand]
+            block_size=config["fft_dynamic_block_sizes"][index_FreqBand] # ist index_FreqBand richtig? geht es nicht um Block size?
             )
     
     st = ac.SteeringVector(

@@ -24,7 +24,7 @@ z_max = 1.75
 
 #FFT parameters
 fft_overlap = ["None", "50%", "75%", "87.5%"][0]
-fft_block_size = [128, 256, 512, 2048, 4096][1]
+fft_block_size = [128, 256, 512, 2048, 4096][3]
 fft_dynamic_block_sizes = [1024, 1024, 512, 256, 256]
 
 frequency_bands = [125, 250, 500, 1000, 2000] # Array with mid frequencies of frequency bands
