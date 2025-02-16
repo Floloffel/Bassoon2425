@@ -1,7 +1,9 @@
-acoular
+acoular >= 25.0
 numpy
 matplotlib
 pandas
 openpyxl
 plotly
 nbformat
+ipykernel
+ipympl 
