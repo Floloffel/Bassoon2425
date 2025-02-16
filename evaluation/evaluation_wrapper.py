@@ -17,7 +17,7 @@ from efficient_evaluation import efficient_eval
 
 ############################################
 # change theese to select files to evaluate
-stats_start_index = 9
+stats_start_index = 8
 stats_stop_index = 11
 ############################################
 
@@ -69,7 +69,7 @@ for i, row in enumerate(stats):
     # logging
     logging.info(f"Processing file {file_name} ({i+1}/{len(stats)})")
     file_length_seconds = float(row[3]) - float(row[2])
-    logging.info(f"File length: {file_length_seconds} seconds")
+    logging.info(f"File length: {np.round(file_length_seconds, 2)} seconds")
     logging.info(f"Frame amount: {int(file_length_seconds * eval_config['frame_rate_fps'])}")
     
 
