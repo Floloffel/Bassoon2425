@@ -17,12 +17,12 @@ from efficient_evaluation import efficient_eval
 
 ############################################
 # change theese to select files to evaluate
-stats_start_index = 8
+stats_start_index = 0
 stats_stop_index = 11
 ############################################
 
 # set up variables
-estimated_time_per_seconds = int(5*25)
+estimated_time_per_seconds = int(4*25)
 time_cooldown = 60
 
 # create out folder
