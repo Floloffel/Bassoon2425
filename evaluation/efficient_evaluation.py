@@ -17,7 +17,7 @@ from evaluation_config import eval_config
 
 def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_seconds):
 
-    ac.config.global_caching = "readonly"
+    ac.config.global_caching = "none"
 
     # define paths
     path_audio_data = config["in_folder"] + "array_audio_data/" + name_h5_file
