@@ -1,25 +1,27 @@
 '''
-SCript to generate mic positions on side (vertical) planes and save them as excel file
+Script to generate mic positions on side (vertical) planes and save them as excel file
 '''
 
 
-## Seitenflächen
+## side planes
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 
+# real world measurements
 SideGrid_w = 1.38
 SideGrid_h = 1.82
 
+# parameters
 M = 20 #number of virtual mics
 m = np.arange(M)
 V = 5
 R = SideGrid_h/2
 
-# Vogel's plot
+# Vogel's spiral constants
 r = R*np.sqrt(m/M)
 phi = 2*np.pi*m*((1+np.sqrt(V))/2)
 
+# calc coords
 x = np.asarray(r*np.cos(phi))
 y = np.asarray(r*np.sin(phi))
 coord = np.array([x,y])

@@ -1,4 +1,9 @@
-import pandas as pd
+'''
+This script contains all custom function that are used among the mic_position files.
+Most of them are for the parametric position model.
+'''
+
+
 import numpy as np
 import scipy as sp
 
