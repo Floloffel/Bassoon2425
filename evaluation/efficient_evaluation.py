@@ -1,5 +1,6 @@
 '''
-This script is based on the jupyter notebook Auswerteschleife.ipynb from 09.02.2025. 
+This scripts provides a function to evaluate array data of one measurement. 
+Array data will be processed as frames at a specified frame rate.
 '''
 
 # import libraries
@@ -17,7 +18,6 @@ from evaluation_config import eval_config
 def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_seconds):
 
     ac.config.global_caching = "none"
-    #ac.config.cache_dir = "C:/Projekte TEMPORÄR/Bassoon2425 Cache"
 
     # define paths
     path_audio_data = config["in_folder"] + "array_audio_data/" + name_h5_file
@@ -37,7 +37,7 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     frame_amount = int((stop_seconds-start_seconds)*frame_rate)
 
     if frame_length_samples < config["fft_block_size"]:
-        raise ValueError(f"frame_length shorter than fft block ({frame_length_samples} < {config["fft_block_sized"]})")
+        raise ValueError(f"frame_length shorter than fft block ({frame_length_samples} < {np.min(config["fft_dynamic_block_sizes"])})")
 
     # acoular set up
 
@@ -67,14 +67,14 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     f = ac.PowerSpectra(
             source=data, 
             window='Hanning', 
-            overlap=config["fft_overlap"], 
-            block_size=config["fft_block_size"] # ist index_FreqBand richtig? geht es nicht um Block size?
+            overlap=config["fft_overlap"]
             )
     
     st = ac.SteeringVector(
         grid=g, 
         mics=m, 
-        steer_type='true location')
+        steer_type='true location',
+        ref=1)
     
     b = ac.BeamformerCleansc(
         freq_data=f, 
@@ -114,6 +114,10 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     #########################################
 
     # save Data
+
+    path_result_files = path_result_files.replace(".h5", "")
+    name_h5_file = name_h5_file.replace(".h5", "")
+    
     os.makedirs(path_result_files, exist_ok=True)
     np.save(path_result_files + "result_" + name_h5_file, result)
 
@@ -123,10 +127,13 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
 
 
     print(f"Saved results to {path_result_files}")
+
+    # force closing .h5 file by setting it to None (should trigger garbage collection)
+    data = None
     #####################################
 
 def main():
-    name_h5_file = "2025-01-28_15-59-01_400437.h5"
+    name_h5_file = "2025-01-28_15-01-02_954236.h5"
     out_folder_name = "testing"
     start_seconds = 26 #seconds
     stop_seconds = 36 
