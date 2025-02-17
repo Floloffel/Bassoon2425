@@ -19,5 +19,7 @@ There's also a **legacy** folder, which contains old scripts, that have no furth
 
 1. Copy array measurements to evaluation\in\array_audio_data
 2. Set up via **evaluation_config.py**
-3. **evaluation_config.py:** calculates beamforming results at given grid, fps, band, etc. This can take a very long time (>10 hours)
+3.  1. **efficient_evaluation.py** calculates a single beamforming result at given grid, fps, band, etc. Can be used for testing.
+    2. **evaluation_wrapper.py:** calculates multiple beamforming results at given grid, fps, band, etc. This can take a very long time (>10 hours)
+
 4. ???
