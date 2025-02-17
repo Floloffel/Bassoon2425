@@ -7,3 +7,5 @@ plotly
 nbformat
 ipykernel
 ipympl 
+pyyaml
+#conda install -c conda-forge ffmpeg  
