@@ -84,6 +84,6 @@ for i, row in enumerate(stats):
 
 # logging
 time_needed = np.round(time.time() - time_start, 2)
-logging.info(f"Script completed. Total time needed: {time_needed/60} minutes.")
+logging.info(f"Script completed. Total time needed: {np.round(time_needed/60/60, 2)} hours.")
 print(f"Calculated all files @ {eval_config['frame_rate_fps']} fps")
 print(f"Needed time: {time_needed/60} minutes.")
