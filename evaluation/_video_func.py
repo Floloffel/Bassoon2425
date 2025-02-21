@@ -26,9 +26,8 @@ def video_export(path, name, config, frequency_band, camera_position):
     ax_zlim = [[0, 2], [0, 2]][camPos]
 
     # plot parameters
-
-    dotsize = 10**-6
-    size_exponent = 5
+    dotsize = 4* 10**-3
+    size_exponent = 3
     vmin = 60 #dB
     vmax = 90 #dB
     alpha = 0.7
