@@ -6,7 +6,7 @@ out_folder = "./evaluation/out/"
 in_folder = "./evaluation/in/"
 
 
-calc_grid_res_meters = 0.01
+calc_grid_res_meters = 0.02
 frame_rate_fps = 25
 
 
@@ -25,9 +25,11 @@ z_max = 1.75
 #FFT parameters
 fft_overlap = ["None", "50%", "75%", "87.5%"][0]
 fft_block_size = [128, 256, 512, 2048, 4096][3]
-fft_dynamic_block_sizes = [2048, 1024, 1024, 512, 256, 256, 256, 128]
+#fft_dynamic_block_sizes = [2048, 1024, 1024, 512, 256, 256, 256, 128]
+fft_dynamic_block_sizes = [1024, 256]
 
-frequency_bands = [63, 125, 250, 500, 1000, 2000, 4000, 8000] # Array with mid frequencies of frequency bands
+frequency_bands = [250, 1000]
+#frequency_bands = [63, 125, 250, 500, 1000, 2000, 4000, 8000] # Array with mid frequencies of frequency bands
 bandwidth = [1, 1/3][0]
 
 
