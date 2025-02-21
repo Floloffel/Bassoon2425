@@ -60,7 +60,7 @@ for path in npy_paths:
     json_config["video_out"] = os.path.join(
         "evaluation", "out", "video_data", f"{grid_size_cm}cm_grid", name, "")
 
-    logging.info(f"Processing file: {name} @ {grid_size_cm} cm grid")
+    logging.info(f"Processing file: {name}.npy @ {grid_size_cm} cm grid")
     
     # create out folder
     os.makedirs(json_config["video_out"], exist_ok=True)
@@ -69,16 +69,13 @@ for path in npy_paths:
     camera_postions = [1, 2]
 
     for band in frequency_bands:
-        logging.info(f"Processing {band}Hz octave")
         for camera_pos in camera_postions:
-            logging.info(f"Processing camera position {camera_pos}")
+            logging.info(f"Processing {band} Hz octave, camera position {camera_pos}")
             print(f"Processing {name} @ {grid_size_cm} cm grid, {band} Hz, camera {camera_pos}")
             video_export(path, name, json_config, band, camera_pos)
     
-    logging.info(f"Done processing file. Time needed: {(np.round(time.time() - time_per_video)/60, 2)} minutes")
+    logging.info(f"Done processing file. Time needed: {np.round((time.time() - time_per_video)/60, 2)} minutes")
     logging.info(f"saved videos to {json_config["video_out"]}")
+    print("---------------------------------------------")
 
-logging.info(f"Done processing all files. Total time needed: {(np.round(time.time() - time_start)/60, 2)} minutes")
-
-
-
+logging.info(f"Done processing all files. Total time needed: {np.round((time.time() - time_start)/60, 2)} minutes")
