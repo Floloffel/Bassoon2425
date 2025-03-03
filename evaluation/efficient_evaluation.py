@@ -29,11 +29,11 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     data = ac.MaskedTimeSamples(file = path_audio_data)
 
     # load calibration data
-    calibData = ac.Calib(source=data, file=path_mic_calib)
+    calib_data = ac.Calib(source=data, file=path_mic_calib)
     
     # define parameters
     frequency_bands = config["frequency_bands"]
-    sample_freq = calibData.sample_freq
+    sample_freq = calib_data.sample_freq
 
     frame_rate = config["frame_rate_fps"]
     frame_length_seconds = 1/frame_rate
@@ -70,7 +70,7 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     time_initial = time.time()  
 
     f = ac.PowerSpectra(
-            source=calibData, 
+            source=calib_data, 
             window='Hanning', 
             overlap=config["fft_overlap"]
             )
@@ -97,8 +97,8 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
             print(f"Frequency Band: {index_freq_band + 1} ({currentFreqBand} Hz)")
             time_band_start = time.time()
 
-            calibData.start = int((start_seconds + frame_length_seconds * index_frame)*sample_freq)
-            calibData.stop = int((start_seconds + frame_length_seconds * (index_frame+1))*sample_freq)
+            data.start = int((start_seconds + frame_length_seconds * index_frame)*sample_freq)
+            data.stop = int((start_seconds + frame_length_seconds * (index_frame+1))*sample_freq)
             f.block_size = config["fft_dynamic_block_sizes"][index_freq_band]
 
             result[index_freq_band, index_frame] = b.synthetic(currentFreqBand, config["bandwidth"])
@@ -135,7 +135,7 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     print(f"Saved results to {path_result_files}")
 
     # force closing .h5 file by setting it to None (should trigger garbage collection)
-    calibData = None
+    calib_data = None
     data = None
     #####################################
 
