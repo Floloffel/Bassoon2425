@@ -22,14 +22,18 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     # define paths
     path_audio_data = config["in_folder"] + "array_audio_data/" + name_h5_file
     path_mic_geom = config["in_folder"] + "array_position_data/bassoon_cage_64_optimized.xml"
+    path_mic_calib = config["in_folder"] + "array_calib_data/bassoon_calibData.xml"
     path_result_files = config["out_folder"] + out_folder_name + "/"
 
     # load data (early, to get sample freq)
     data = ac.MaskedTimeSamples(file = path_audio_data)
+
+    # load calibration data
+    calibData = ac.Calib(source=data, file=path_mic_calib)
     
     # define parameters
     frequency_bands = config["frequency_bands"]
-    sample_freq = data.sample_freq
+    sample_freq = calibData.sample_freq
 
     frame_rate = config["frame_rate_fps"]
     frame_length_seconds = 1/frame_rate
@@ -51,6 +55,7 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
         z_max=config["z_max"], 
         increment=config["calc_grid_res_meters"]
         )
+    env = ac.Environment(c = 341.9)
     result = np.empty(
         [len(frequency_bands),
          frame_amount,
@@ -65,7 +70,7 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     time_initial = time.time()  
 
     f = ac.PowerSpectra(
-            source=data, 
+            source=calibData, 
             window='Hanning', 
             overlap=config["fft_overlap"]
             )
@@ -74,7 +79,8 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
         grid=g, 
         mics=m, 
         steer_type='true location',
-        ref=1)
+        ref=1,
+        env=env)
     
     b = ac.BeamformerCleansc(
         freq_data=f, 
@@ -91,8 +97,8 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
             print(f"Frequency Band: {index_freq_band + 1} ({currentFreqBand} Hz)")
             time_band_start = time.time()
 
-            data.start = int((start_seconds + frame_length_seconds * index_frame)*sample_freq)
-            data.stop = int((start_seconds + frame_length_seconds * (index_frame+1))*sample_freq)
+            calibData.start = int((start_seconds + frame_length_seconds * index_frame)*sample_freq)
+            calibData.stop = int((start_seconds + frame_length_seconds * (index_frame+1))*sample_freq)
             f.block_size = config["fft_dynamic_block_sizes"][index_freq_band]
 
             result[index_freq_band, index_frame] = b.synthetic(currentFreqBand, config["bandwidth"])
@@ -129,6 +135,7 @@ def efficient_eval(name_h5_file, out_folder_name, config, start_seconds, stop_se
     print(f"Saved results to {path_result_files}")
 
     # force closing .h5 file by setting it to None (should trigger garbage collection)
+    calibData = None
     data = None
     #####################################
 
