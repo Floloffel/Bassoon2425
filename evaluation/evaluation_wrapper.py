@@ -41,7 +41,7 @@ time_start = time.time()
 logging.info("Script started")
 
 # Load and trim stats
-stats = np.load("./evaluation/in/audioFileStats.npy")
+stats = np.load("./evaluation/in/audioFileStats_25-03-03_lastCalculation.npy")
 stats = stats[stats_start_index:stats_stop_index, :]
 print(stats)
 
