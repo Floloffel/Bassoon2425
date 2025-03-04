@@ -1,5 +1,4 @@
 import acoular as ac
-import json
 import os
 import matplotlib.pyplot as plt
 import numpy as np
@@ -7,7 +6,7 @@ import matplotlib.animation as anim
 from matplotlib.colors import LinearSegmentedColormap
 
 
-def video_export(path, name, config, frequency_band, camera_position):
+def video_export(path, name, config, frequency_band, camera_position, global_max):
     ######################
     # Set up
     ######################
@@ -28,8 +27,8 @@ def video_export(path, name, config, frequency_band, camera_position):
     # plot parameters
     dotsize = 10**-6
     size_exponent = 5
-    vmin = 60 #dB
-    vmax = 90 #dB
+    vmin = -35 #dB
+    vmax = 0 #dB
     alpha = 0.7
     init_frame = 42
     width_pixels = 1440
@@ -52,6 +51,7 @@ def video_export(path, name, config, frequency_band, camera_position):
     # read Data
     bf_result = np.load(path)
     map = ac.fbeamform.L_p(bf_result) # p0 = 4 * 10**-4
+    map = map - global_max
 
   
     # get x, y, z values
@@ -76,7 +76,7 @@ def video_export(path, name, config, frequency_band, camera_position):
     # Plotting
     ######################
     
-    size = (values_thresh)**size_exponent * dotsize
+    size = (values_thresh + global_max -34)**size_exponent * dotsize
     # Calculate figsize in inches (pixels / dpi)
     figsize = (width_pixels / dpi, height_pixels / dpi)
 
@@ -87,6 +87,14 @@ def video_export(path, name, config, frequency_band, camera_position):
     ax = fig.add_subplot(projection='3d')
     ax.set_proj_type('persp', focal_length=0.1)#0.547)
     ax.view_init(elev=elevation, azim=azimuth, roll=0)
+
+    # plot bassoon line:
+    bassoon_low_xyz = [0.97081132, 0.98296962, 0.41316809]
+    bassoon_high_xyz = [0.53056959, 0.3204048, 1.48546785]
+    x_line = [bassoon_low_xyz[0], bassoon_high_xyz[0]]
+    y_line = [bassoon_low_xyz[1], bassoon_high_xyz[1]]
+    z_line = [bassoon_low_xyz[2], bassoon_high_xyz[2]]
+    ax.plot(x_line, y_line, z_line, linewidth=3, color='brown')
 
     # plot Beamforming data
     scat = ax.scatter(x_m_thresh, y_m_thresh, z_m_thresh,
@@ -126,8 +134,8 @@ def video_export(path, name, config, frequency_band, camera_position):
 
         # Update color, size, alpha
         color = filtered_values  # Can apply normalization or scaling
-        size = (filtered_values ** size_exponent) * dotsize  # Adjust size based on values
-
+        size = ((filtered_values + global_max -34)**size_exponent) * dotsize  # Adjust size based on values
+        
         # Update the scatter plot with new values
         scat._offsets3d = (x_filtered, y_filtered, z_filtered)  # Update the 3D coordinates
         scat.set_array(color)  # Update color
