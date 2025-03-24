@@ -11,5 +11,7 @@ pyyaml
 pytransform3d
 pstats
 cProfile
+mpl_toolkits
+scipy
 
 #conda install -c conda-forge ffmpeg  
