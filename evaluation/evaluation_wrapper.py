@@ -1,6 +1,6 @@
 '''
 This script runs the evaluation function on all measurements. 
-Besides measurement data, a "stas" file with measurement name, start and stop is needed.
+Besides measurement data, a "stats" file with measurement name, start and stop is needed.
 Running this script can take a very long time. Logging is implemented.
 '''
 

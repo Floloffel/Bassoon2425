@@ -1,3 +1,8 @@
+'''
+This script runs _video_func.py on all measurements. 
+Running this script can some time. Logging is implemented.
+'''
+
 import os
 import json
 from _video_func import video_export
