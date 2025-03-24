@@ -12,7 +12,7 @@ from datetime import datetime
 import os
 
 from evaluation_config import eval_config
-from efficient_evaluation import efficient_eval
+from _efficient_evaluation import efficient_eval
 
 
 ############################################

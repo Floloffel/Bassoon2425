@@ -8,4 +8,8 @@ nbformat
 ipykernel
 ipympl 
 pyyaml
+pytransform3d
+pstats
+cProfile
+
 #conda install -c conda-forge ffmpeg  
