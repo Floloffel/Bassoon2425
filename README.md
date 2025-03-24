@@ -40,7 +40,9 @@ The video processing is about five times faster than the beamforming.
 
 ### SODIX_[...] files
 
+**--Not finished--**\
 The structure is the same as with the evaluation_[...] files.
+The SODIX algorithm is used to describe the 3D directivity.
 
 ## Set Up Environment
 
