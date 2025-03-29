@@ -1,6 +1,14 @@
 # Bassoon2425
 Microphone array project WiSe 24/25. Topic: Sound Radiation of a Bassoon
 
+## Abstract
+
+The bassoon exhibits complex sound radiation characteristics, which can pose challenges during recording. In this project, a bassoon was analyzed in various tonal regions using a microphone array to identify the smaller sound sources that contribute to its overall sound radiation. By applying beamforming techniques to the array data, it was possible to generate videos of the bassoon with overlaid visual representations of its sound sources.
+
+Key findings indicate that the bassoon’s sound radiation strongly depends on the configuration of opened and closed tone holes for each played note, as well as on the analyzed frequency range. The visualized sound source distribution can help audio engineers when recording a bassoon, either to capture an accurate representation of the instrument or to achieve a desired timbre.
+
+
+
 The result Videos of the bassoon and its visualized sound sources can be seen here:
 https://tubcloud.tu-berlin.de/s/8i6G8Hsa4gQjEKa
 
@@ -12,7 +20,7 @@ This repository has two important folders: `mic_positions` and `evaluation`. \
 
 1. **Vogel_plot.ipynb:** Determines the appropriate microphone number per plane.
 2. **generate_ideal_mic_side_positions_as_excel.py:** Calculates and saves ideal 2D microphone positions.
-3. **2d_to_3d_coords.ipynb:** Converts 2D positions to 3D positions.
+3. **2d_to_3d_coords.ipynb:** Converts 2D positions on the microphone planes to 3D positions in the microphone array.
 4. **plot_and_measure_3d_coords.ipynb:** Plots ideal 3D positions. Also used for measuring distances between microphones.
 5. **position_optimizer.ipynb:** Optimizes ideal microphone positions with measured microphone distances.
 6. **calc_other_positions.ipynb:** Calculates positions like cameras, bassoon, and reference from real-world distance measurements.
